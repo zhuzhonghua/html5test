@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <link href="test.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style type="text/css">
+    #content{
+        margin: 0 auto;
+        height: 300px;
+        width: 300px;
+      }
+    </style>
+    <script type="text/javascript">
+      $(document).ready(function(){
+				var c = document.getElementById("background");
+				var ctx = c.getContext("2d");
+
+				ctx.fillText("Fuck", 100, 50);
+      });
+    </script>
+  </head>
+  <body>
+    <audio id="myaudio" onended="onEnded()">
+      HTML5 audio not supported
+    </audio>
+    <div id="content">
+      <div id="canvas">
+        <canvas id="background">
+				</canvas>
+        <canvas id="entities"></canvas>
+        <canvas id="foreground" class="clickable"></canvas>
+      </div>
+    </div>
+  </body>
+</html>
