@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Test</title>
+<style>/* Removes Mobile Highlight */ *{-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}</style>
+
+<script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+<script src="http://code.createjs.com/tweenjs-0.5.0.min.js"></script>
+<script src="http://code.createjs.com/movieclip-0.7.0.min.js"></script>
+<script src="http://code.createjs.com/preloadjs-0.4.0.min.js"></script>
+<script src="http://code.createjs.com/soundjs-0.5.0.min.js"></script>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script src="javascript/PlatypusGame.js"></script>
+<script src="javascript/XUI.js"></script>
+
+<script>	
+
+	function checkBrowser(){
+		var Sys = {};
+		var ua = navigator.userAgent.toLowerCase();
+		var s = ua.match(/firefox\/([\d.]+)/);
+		if(s){
+			s = s[1];
+			if (s < 24) {
+				alert("please use firefox 24.0+");
+			}
+		}
+		else{
+			alert("please use firefox 24.0+");
+		}		
+	}	
+	var canvas, stage;
+	var platypus;
+	var scoreTxt;
+	var score = 0;
+
+	function init(){	
+		checkBrowser();
+
+		canvas = document.getElementById('canvas');
+		stage = new createjs.Stage(canvas);
+
+		//var btImg = new createjs.Bitmap("test_opponent.png");
+		//btImg.x = 442.3;
+		//btImg.y = 134.35;
+		//stage.addChild(btImg);
+		//
+		//stage.update();
+
+		//var image = new createjs.Bitmap("test_my.png");
+		//image.x = 10;
+		//image.y = 10;
+		//stage.addChild(image);
+		//createjs.Ticker.addEventListener("tick", handleTick);
+		//function handleTick(event) {
+		//     //image.x += 10;
+		//     stage.update();
+		//}
+		Main();
+
+		
+
+		createjs.Ticker.timingMode = createjs.Ticker.RAF;
+		var added = false;
+		createjs.Ticker.addEventListener("tick", function(event){
+			stage.update(event);
+			
+			if (platypus) {
+				if (false == added) {
+					platypus.state = "normal";
+					platypus.addEventListener("click", function(event){
+						platypus.gotoAndPlay(60);
+						platypus.state = "fall";
+						score += 1;
+					});
+					added = true;
+				};
+				if(platypus.state == "normal"){
+					platypus.x -= 1;
+					var bounds = platypus.getBounds();
+					if (platypus.x < -bounds.width) {
+						platypus.x = 800;
+					};
+				}
+				else{
+					platypus.y += 12;
+				}
+			}
+		});		
+	}
+	
+	function platypus_complete(sprite){
+		sprite.x = 800;
+		sprite.y = 83;
+		
+		scoreTxt.text = "SCORE: "+score;
+		platypus.state = "normal";
+	}
+</script>
+
+</head>
+
+<body onload="init();" style="background-color:#D4D4D4">
+	<canvas id="canvas" width="800" height="400" style="background-color:#ffffff"></canvas>
+</body>
+</html>
